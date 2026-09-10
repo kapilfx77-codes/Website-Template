@@ -35,7 +35,6 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
             <p className="mt-1 text-sm text-slate-500">Manage products, categories, pricing and stock.</p>
           </div>
           <div className="flex gap-2">
-            <button onClick={handleSeed} className="rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-bold text-white shadow hover:bg-amber-600">Seed Sample Inventory</button>
             <button onClick={() => setShowCategoryForm(!showCategoryForm)} className="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-bold text-white shadow hover:bg-slate-800">+ Category</button>
             <button onClick={() => setShowAdd(true)} className="rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-bold text-white shadow hover:bg-blue-800">+ Product</button>
           </div>
