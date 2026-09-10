@@ -25,12 +25,16 @@ export async function createProduct(formData: FormData) {
     is_active,
   };
 
-  const { error } = await supabase.from('products').insert(insert);
-  if (error) throw new Error(error.message);
-
-  revalidatePath('/');
-  revalidatePath('/admin/products');
-  return { success: true };
+  try {
+    const { error } = await supabase.from('products').insert(insert);
+    if (error) throw new Error(error.message);
+    revalidatePath('/');
+    revalidatePath('/admin/products');
+    return { success: true };
+  } catch (e: any) {
+    console.error('createProduct error:', e);
+    return { success: false, error: e?.message || String(e) };
+  }
 }
 
 export async function updateProduct(id: string, formData: FormData) {

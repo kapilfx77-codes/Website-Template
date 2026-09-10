@@ -220,6 +220,9 @@ CREATE POLICY order_items_insert ON public.order_items FOR INSERT WITH CHECK (EX
 -- Inventory: admin only for modifications, public no-read (internal)
 CREATE POLICY inventory_admin_all ON public.inventory FOR ALL USING ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin') WITH CHECK ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
 
+CREATE POLICY products_public_insert ON public.products FOR INSERT WITH CHECK (true);
+CREATE POLICY categories_public_insert ON public.categories FOR INSERT WITH CHECK (true);
+
 -- Vouchers: public read active, admin full
 CREATE POLICY vouchers_public_read ON public.vouchers FOR SELECT USING (is_active = true AND (valid_until IS NULL OR valid_until > now()));
 CREATE POLICY vouchers_admin_all ON public.vouchers FOR ALL USING ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin') WITH CHECK ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');

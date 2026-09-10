@@ -13,18 +13,6 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState<string | null>(null);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
-  const [seedStatus, setSeedStatus] = useState<string>('');
-
-  async function handleSeed() {
-    try {
-      const res = await fetch('/api/setup/seed', { method: 'POST' });
-      const data = await res.json();
-      setSeedStatus(data.message || 'Seed complete');
-      window.location.reload();
-    } catch {
-      setSeedStatus('Seed failed');
-    }
-  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -39,62 +27,13 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
             <button onClick={() => setShowAdd(true)} className="rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-bold text-white shadow hover:bg-blue-800">+ Product</button>
           </div>
         </header>
-        {seedStatus && <div className="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-800">{seedStatus}</div>}
 
         {showCategoryForm && (
-          <form action={async (formData: FormData) => { await createCategory(formData); setShowCategoryForm(false); setTimeout(() => window.location.reload(), 300); }} className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm" onSubmit={undefined}>
-            <h3 className="mb-4 text-lg font-bold text-slate-900">New Category</h3>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="cat-name" className="block text-xs font-bold text-slate-700">Name</label>
-                <input id="cat-name" name="name" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
-              </div>
-              <div>
-                <label htmlFor="cat-slug" className="block text-xs font-bold text-slate-700">Slug</label>
-                <input id="cat-slug" name="slug" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
-              </div>
-            </div>
-            <button type="submit" className="mt-4 rounded-lg bg-blue-700 px-4 py-2 text-sm font-bold text-white hover:bg-blue-800">Save Category</button>
-          </form>
+          <CategoryForm onDone={() => setShowCategoryForm(false)} />
         )}
 
         {showAdd && (
-          <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-bold text-slate-900">Add Product</h3>
-            <form action={async (formData: FormData) => { await createProduct(formData); setShowAdd(false); setTimeout(() => window.location.reload(), 300); }} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <div>
-                <label htmlFor="p-name" className="block text-xs font-bold text-slate-700">Name</label>
-                <input id="p-name" name="name" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="p-price" className="block text-xs font-bold text-slate-700">Price (cents)</label>
-                <input id="p-price" name="price" type="number" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="p-sku" className="block text-xs font-bold text-slate-700">SKU</label>
-                <input id="p-sku" name="sku" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="p-cat" className="block text-xs font-bold text-slate-700">Category</label>
-                <select id="p-cat" name="category_id" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
-                  <option value="">None</option>
-                  {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="p-img" className="block text-xs font-bold text-slate-700">Image URLs (comma-separated)</label>
-                <input id="p-img" name="image_urls" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-              </div>
-              <div>
-                <label htmlFor="p-active" className="flex items-center gap-2 text-xs font-bold text-slate-700">
-                  <input id="p-active" name="is_active" type="checkbox" defaultChecked className="h-4 w-4 rounded border-slate-300 text-blue-700" /> Active
-                </label>
-              </div>
-              <div className="sm:col-span-2 lg:col-span-3">
-                <button type="submit" className="rounded-lg bg-blue-700 px-6 py-2.5 text-sm font-bold text-white shadow hover:bg-blue-800">Save Product</button>
-              </div>
-            </form>
-          </div>
+          <ProductForm categories={categories} onDone={() => setShowAdd(false)} />
         )}
 
         <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-xl">
@@ -124,9 +63,7 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
                       <button onClick={() => setShowEdit(p.id)} className="rounded-md bg-blue-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-blue-700">Edit</button>
-                      <form action={async () => { await deleteProduct(p.id); setTimeout(() => window.location.reload(), 300); }}>
-                        <button type="submit" className="rounded-md bg-red-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-red-700">Delete</button>
-                      </form>
+                      <DeleteButton id={p.id} />
                     </div>
                   </td>
                 </tr>
@@ -137,19 +74,87 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
         </div>
 
         {showEdit && (
-          <EditProductModal product={products.find(p => p.id === showEdit)!} categories={categories} onClose={() => setShowEdit(null)} />
+          <EditModal product={products.find(p => p.id === showEdit)!} categories={categories} onClose={() => setShowEdit(null)} />
         )}
       </div>
     </div>
   );
 }
 
-function EditProductModal({ product, categories, onClose }: { product: Products; categories: Categories[]; onClose: () => void }) {
+function DeleteButton({ id }: { id: string }) {
+  return (
+    <form action={async () => { await deleteProduct(id); window.location.reload(); }}>
+      <button type="submit" className="rounded-md bg-red-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-red-700">Delete</button>
+    </form>
+  );
+}
+
+function CategoryForm({ onDone }: { onDone: () => void }) {
+  return (
+    <form action={async (formData: FormData) => { await createCategory(formData); onDone(); setTimeout(() => window.location.reload(), 300); }} className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 className="mb-4 text-lg font-bold text-slate-900">New Category</h3>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="cat-name" className="block text-xs font-bold text-slate-700">Name</label>
+          <input id="cat-name" name="name" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+        </div>
+        <div>
+          <label htmlFor="cat-slug" className="block text-xs font-bold text-slate-700">Slug</label>
+          <input id="cat-slug" name="slug" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+        </div>
+      </div>
+      <button type="submit" className="mt-4 rounded-lg bg-blue-700 px-4 py-2 text-sm font-bold text-white hover:bg-blue-800">Save Category</button>
+    </form>
+  );
+}
+
+function ProductForm({ categories, onDone }: { categories: Categories[]; onDone: () => void }) {
+  return (
+    <div className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 className="mb-4 text-lg font-bold text-slate-900">Add Product</h3>
+      <form action={async (formData: FormData) => { await createProduct(formData); onDone(); setTimeout(() => window.location.reload(), 300); }} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div>
+          <label htmlFor="p-name" className="block text-xs font-bold text-slate-700">Name</label>
+          <input id="p-name" name="name" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label htmlFor="p-price" className="block text-xs font-bold text-slate-700">Price (cents)</label>
+          <input id="p-price" name="price" type="number" required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label htmlFor="p-sku" className="block text-xs font-bold text-slate-700">SKU</label>
+          <input id="p-sku" name="sku" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label htmlFor="p-cat" className="block text-xs font-bold text-slate-700">Category</label>
+          <select id="p-cat" name="category_id" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+            <option value="">None</option>
+            {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="p-img" className="block text-xs font-bold text-slate-700">Image URLs (comma-separated)</label>
+          <input id="p-img" name="image_urls" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label htmlFor="p-active" className="flex items-center gap-2 text-xs font-bold text-slate-700">
+            <input id="p-active" name="is_active" type="checkbox" defaultChecked className="h-4 w-4 rounded border-slate-300 text-blue-700" /> Active
+          </label>
+        </div>
+        <div className="sm:col-span-2 lg:col-span-3">
+          <button type="submit" className="rounded-lg bg-blue-700 px-6 py-2.5 text-sm font-bold text-white shadow hover:bg-blue-800">Save Product</button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function EditModal({ product, categories, onClose }: { product: Products; categories: Categories[]; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
         <h3 className="mb-4 text-lg font-bold text-slate-900">Edit Product</h3>
-        <form action={(formData: FormData) => { updateProduct(product.id, formData); onClose(); setTimeout(() => window.location.reload(), 300); }} className="grid gap-4 sm:grid-cols-2">
+        <form action={async (formData: FormData) => { await updateProduct(product.id, formData); onClose(); setTimeout(() => window.location.reload(), 300); }} className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="e-name" className="block text-xs font-bold text-slate-700">Name</label>
             <input id="e-name" name="name" defaultValue={product.name} required className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
@@ -174,7 +179,9 @@ function EditProductModal({ product, categories, onClose }: { product: Products;
             <input id="e-img" name="image_urls" defaultValue={Array.isArray(product.image_urls) ? product.image_urls.join(', ') : ''} className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
           </div>
           <div>
-            <label htmlFor="e-active" className="flex items-center gap-2 text-xs font-bold text-slate-700"><input id="e-active" name="is_active" type="checkbox" defaultChecked={product.is_active} className="h-4 w-4 rounded border-slate-300 text-blue-700" /> Active</label>
+            <label htmlFor="e-active" className="flex items-center gap-2 text-xs font-bold text-slate-700">
+              <input id="e-active" name="is_active" type="checkbox" defaultChecked={product.is_active} className="h-4 w-4 rounded border-slate-300 text-blue-700" /> Active
+            </label>
           </div>
           <div className="sm:col-span-2 flex gap-2">
             <button type="submit" className="rounded-lg bg-blue-700 px-4 py-2 text-sm font-bold text-white">Save</button>
