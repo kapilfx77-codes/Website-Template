@@ -1,17 +1,21 @@
+import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 
 export async function POST() {
-  const supabase = await createClient();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-  // Check if categories already exist
+  if (!serviceRoleKey) {
+    return NextResponse.json({ error: 'Missing SUPABASE_SERVICE_ROLE_KEY' }, { status: 500 });
+  }
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+
   const { data: categories } = await supabase.from('categories').select('id');
   const { data: products } = await supabase.from('products').select('id');
-
   const hasData = (categories && categories.length > 0) || (products && products.length > 0);
 
   if (!hasData) {
-    // Seed categories
     const categoriesToInsert = [
       { name: 'Electronics', slug: 'electronics', is_active: true, sort_order: 1 },
       { name: 'Clothing', slug: 'clothing', is_active: true, sort_order: 2 },
@@ -42,5 +46,5 @@ export async function POST() {
     return NextResponse.json({ message: 'Seeded 4 categories and 6 products.', seeded: true });
   }
 
-  return NextResponse.json({ message: 'Data already exists. Nothing seeded.', seeded: false });
+  return NextResponse.json({ message: 'Data already exists.', seeded: false });
 }

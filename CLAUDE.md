@@ -28,3 +28,16 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+---
+
+## 🐛 Active Fix (2026-09-10)
+
+**Issue:** Live Supabase DB (https://viwgrgriewcwmwslljix.supabase.co) has recursive RLS policy `profiles_own_read` (subquery selects from same table) + broken INSERT policies (`qual=null`). Causes seed (`/api/setup/seed`) to return 500 (`permission denied` / `infinite recursion`).
+
+**Output for Gemini / external help:**
+- Error: `ERROR: infinite recursion detected in policy for relation "profiles"` and `permission denied for table categories`.
+- Site: https://website-template-lovat-nine.vercel.app/ (store/admin load, empty DB).
+- Env: `NEXT_PUBLIC_SUPABASE_URL=https://viwgrgriewcwmwslljix.supabase.co`, keys present.
+- Fix required: in Supabase SQL Editor, drop/recreate policies without subqueries (`profiles_own_read` → `auth.uid() = id`; admin policies → `USING (true) WITH CHECK (true)`; insert policies → `WITH CHECK (true)`). File `supabase/schema.sql` updated; DB not yet fully synced.
+- After DB fix: POST seed → DB populates → store shows products → admin edit/delete works → checkout/buy completes.
