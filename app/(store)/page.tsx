@@ -41,10 +41,14 @@ export default async function StorePage({ searchParams }: PageProps) {
     );
   }
 
-  const categories = (categoriesData || []).map((c: any) => ({
+  const categories = (categoriesData || []).map((c: any): import('@/types/supabase').Categories => ({
     id: c.id,
     name: c.name,
     slug: c.slug,
+    is_active: c.is_active ?? true,
+    sort_order: c.sort_order ?? 0,
+    created_at: c.created_at ?? new Date().toISOString(),
+    updated_at: c.updated_at ?? new Date().toISOString(),
   }));
 
   return (
