@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import Header from '@/components/storefront/Header';
 import Footer from '@/components/storefront/Footer';
 import CategoryFilter from '@/components/storefront/CategoryFilter';
@@ -15,14 +15,22 @@ export default async function StorePage({ searchParams }: PageProps) {
   const selectedCategory = params?.category || null;
   const searchQuery = params?.search || null;
 
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const [{ data: categoriesData }, { data: productsData }] = await Promise.all([
     supabase.from('categories').select('id, name, slug, is_active').eq('is_active', true).order('name'),
     supabase.from('products').select('id, name, slug, price, image_urls, category_id, sku, is_active').eq('is_active', true),
   ]);
 
-  let products = (productsData || []);
+  let products = (productsData || []).map((product: any) => ({
+    id: product.id,
+    title: product.name,
+    price: product.price,
+    image: product.image_urls?.[0] || '',
+    stock: product.stock ?? 10,
+    slug: product.slug,
+    category: undefined,
+  }));
   if (selectedCategory) {
     products = products.filter((p: any) => p.category_id === selectedCategory);
   }

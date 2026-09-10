@@ -79,7 +79,7 @@ export function formatNumber(num: number): string {
  */
 
 
-export const useCart = create<CartState>(
+export const useCart = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
