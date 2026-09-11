@@ -4,9 +4,9 @@ test.describe('Live Flow: Admin Product Upload & Storefront', () => {
   test('Admin creates product, storefront discovers and navigates to it', async ({ page }) => {
     // 1. Admin Product Creation Action
     await page.goto('https://website-template-lovat-nine.vercel.app/admin/products');
-    await expect(page.getByRole('heading', { name: /Manage products/i })).toBeVisible();
+    await expect(page.locator('text=Product Inventory')).toBeVisible();
 
-    await page.getByRole('button', { name: /Add Product/i }).click();
+    await page.getByRole('button', { name: /\+ Product/i }).click();
     await expect(page.getByRole('heading', { name: /Add Product/i })).toBeVisible();
 
     await page.getByLabel(/name/i).fill('Playwright Automated Smartwatch');
@@ -65,7 +65,7 @@ test.describe('Live Flow: Admin Product Upload & Storefront', () => {
 test.describe('Stripe & Checkout Flow', () => {
   test('Checkout redirects to Stripe and simulates successful order', async ({ page }) => {
     await page.goto('/');
-    await page.locator('button:has-text("Add to Cart")').first().click();
+    await page.getByRole('button', { name: /Add to Cart/i }).first().click();
     await page.goto('/cart');
 
     // 1. Initiate Checkout Flow
