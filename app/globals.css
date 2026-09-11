@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-paper: #F0EEED;
+  --color-ink: #000000;
+  --color-red-badge: #FF3333;
+  --color-star: #FFC107;
+  --radius-card: 20px;
+  --radius-card-lg: 40px;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: #FFFFFF; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
