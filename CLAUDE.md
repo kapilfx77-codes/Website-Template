@@ -56,3 +56,11 @@ npm run lint       # Verified — passes (non-standard NODE_ENV warning only)
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know — APIs, conventions, file structure may differ.
 <!-- END:nextjs-agent-rules -->
+
+## 2026-09-11 — Post-Audit Implementation (Continue)
+- Admin hub `/admin`: metric cards + nav grid implemented (`app/admin/page.tsx`); sub-route links to products/categories/orders/pos/settings
+- Cart page `/cart`: Zustand-bound page with quantity controls, removal, subtotal, checkout link (`app/cart/page.tsx`)
+- DB mutations: `lib/actions/products.ts` verified — all actions use `try/catch` + `revalidatePath` to Supabase directly
+- Stripe routes: `/api/checkout/route.ts` (session creation with line_items) + `/api/webhooks/stripe/route.ts` (signature verification + order insert) created; env vars configured (`.env.local`)
+- Playwright E2E: `tests/e2e/site.spec.ts` authored (3 flows: home/nav, cart, admin mutation); build passes (14 routes); server required for full E2E pass
+- Remaining: run `npm run dev` + `npx playwright test` for final E2E verification; mobile responsive audit; user profile page
