@@ -13,6 +13,7 @@ import { Menu, Search, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 import { CartButton } from '@/components/cart/CartButton';
+import AnnouncementBar from '@/components/AnnouncementBar';
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -20,7 +21,9 @@ export function Header() {
   const { features, name, shortName } = siteConfig;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
+    <>
+      <AnnouncementBar />
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
         {/* Mobile toggle */}
         <button
@@ -73,7 +76,8 @@ export function Header() {
           )}
         </nav>
       </div>
-    </header>
+      </header>
+    </>
   );
 }
 export default Header;
