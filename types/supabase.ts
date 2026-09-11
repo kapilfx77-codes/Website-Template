@@ -46,6 +46,7 @@ export interface Products extends DatabaseRecord {
   price: number; // in cents (or base currency units)
   compare_at_price?: number;
   image_urls: string[];
+  youtube_url?: string;
   is_active: boolean;
   is_featured: boolean;
   meta_title?: string;
@@ -150,6 +151,7 @@ export interface InsertProducts {
   price: number;
   compare_at_price?: number;
   image_urls?: string[];
+  youtube_url?: string;
   is_active?: boolean;
   is_featured?: boolean;
   meta_title?: string;

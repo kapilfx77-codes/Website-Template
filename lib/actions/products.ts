@@ -12,6 +12,7 @@ export async function createProduct(formData: FormData) {
   const price = Number(formData.get('price'));
   const sku = (formData.get('sku') as string) || null;
   const category_id = (formData.get('category_id') as string) || null;
+  const youtube_url = (formData.get('youtube_url') as string) || null;
   const image_urls = formData.get('image_urls') ? (formData.get('image_urls') as string).split(',').map(s => s.trim()).filter(Boolean) : [];
   const is_active = formData.get('is_active') === 'on' || formData.get('is_active') === 'true';
 
@@ -22,6 +23,7 @@ export async function createProduct(formData: FormData) {
     sku: sku || undefined,
     category_id: category_id || undefined,
     image_urls,
+    youtube_url: youtube_url || undefined,
     is_active,
   };
 

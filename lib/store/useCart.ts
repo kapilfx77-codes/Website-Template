@@ -113,12 +113,19 @@ export const useCart = create<CartState>()(
         }),
 
       // --- UPDATE QUANTITY ---
-      updateQuantity: (itemId: string, quantity: number) =>
-        set({
-          items: get().items.map((item) =>
-            item.id === itemId ? { ...item, quantity: Math.max(0, quantity) } : item
-          ),
-        }),
+      updateQuantity: (itemId: string, quantity: number) => {
+        const { items } = get();
+        if (quantity <= 0) {
+          // Auto-remove when reaching zero
+          set({ items: items.filter((item) => item.id !== itemId) });
+        } else {
+          set({
+            items: items.map((item) =>
+              item.id === itemId ? { ...item, quantity } : item
+            ),
+          });
+        }
+      },
 
       // --- CLEAR CART ---
       clearCart: () => set({ items: [] }),

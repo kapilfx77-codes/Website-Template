@@ -34,9 +34,15 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-5xl">
           <nav className="mb-6 text-sm text-muted-foreground">
             <a href="/" className="hover:underline">Home</a>
-            {' / '}
+            {' > '}
             <a href="/store" className="hover:underline">Store</a>
-            {' / '}
+            {' > '}
+            {p.categories?.name && (
+              <>
+                <a href={`/?category=${p.categories.slug || ''}`} className="hover:underline">{p.categories.name}</a>
+                {' > '}
+              </>
+            )}
             <span className="text-foreground">{p.name}</span>
           </nav>
 
@@ -86,13 +92,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </p>
               </div>
 
-              <div className="mt-8">
-                <a
-                  href="/cart"
-                  className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-6 py-3 text-sm font-bold text-white shadow hover:bg-blue-800"
-                >
-                  Add to Cart
-                </a>
+              <div className="mt-8 flex gap-3">
+                <a href="/cart" className="inline-flex items-center rounded-lg bg-blue-700 px-6 py-3 text-sm font-bold text-white shadow hover:bg-blue-800">Add to Cart</a>
+                <a href="/cart" className="inline-flex items-center rounded-lg bg-amber-500 px-6 py-3 text-sm font-bold text-white shadow hover:bg-amber-600">Buy Now</a>
               </div>
             </div>
           </div>
