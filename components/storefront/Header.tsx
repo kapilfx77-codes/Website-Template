@@ -33,7 +33,7 @@ export function Header() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 text-xl font-extrabold tracking-tight text-slate-900">
-          <span className="rounded-lg bg-slate-900 px-2 py-1 text-sm text-white">{shortName}</span>
+          <span className="rounded-lg bg-slate-900 px-2 py-1 text-sm text-white">Apex</span>
           <span className="hidden sm:inline">{name}</span>
         </Link>
 

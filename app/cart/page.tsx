@@ -46,7 +46,11 @@ export default function CartPage() {
             <div className="rounded-2xl bg-white border shadow-xl p-6">
               <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><span className="font-medium">{formatCurrency(getSubtotal())}</span></div>
               <div className="flex justify-between text-2xl font-extrabold text-slate-900 mt-4 pt-4 border-t"><span>Total</span><span>{formatCurrency(getTotal())}</span></div>
-              <a href="/checkout" className="mt-6 block w-full rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-extrabold text-white shadow-lg hover:bg-blue-800">Proceed to Checkout</a>
+              <button onClick={async () => {
+                const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items }) });
+                const data = await res.json();
+                if (data.url) window.location.href = data.url;
+              }} className="mt-6 block w-full rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-extrabold text-white shadow-lg hover:bg-blue-800">Proceed to Checkout</button>
             </div>
           </div>
         )}

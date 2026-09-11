@@ -1,11 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/service';
 import { Products, InsertProducts } from '@/types/supabase';
 
 export async function createProduct(formData: FormData) {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const name = formData.get('name') as string;
   const slug = formData.get('slug') as string || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '-' + Date.now();
@@ -38,7 +38,7 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function updateProduct(id: string, formData: FormData) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const name = formData.get('name') as string;
   const price = Number(formData.get('price'));
   const sku = (formData.get('sku') as string) || null;
@@ -67,7 +67,7 @@ export async function updateProduct(id: string, formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   try {
     const { error } = await supabase.from('products').delete().eq('id', id);
     if (error) throw new Error(error.message);
@@ -81,7 +81,7 @@ export async function deleteProduct(id: string) {
 }
 
 export async function createCategory(formData: FormData) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const name = formData.get('name') as string;
   let slug = (formData.get('slug') as string) || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
   if (!slug) {
