@@ -28,24 +28,24 @@ export function cn(...inputs: ClassValue[]): string {
  * @param showCurrency - If true, shows the currency symbol/sign
  * @returns Formatted price string (e.g., '$100.00' or '100.00 $')
  */
-export function formatPrice(amount: number, showCurrency: boolean = true): string {
-  if (!amount && amount !== 0) return '';
+export function formatPrice(amountInCents: number, showCurrency: boolean = true): string {
+  if (!amountInCents && amountInCents !== 0) return '';
 
-  const absAmount = Math.abs(amount);
-  const formattedAmount = absAmount.toFixed(2);
-  const sign = amount < 0 ? '-' : '';
+  const dollars = Math.abs(amountInCents) / 100;
+  const sign = amountInCents < 0 ? '-' : '';
+  const formatted = dollars.toFixed(2);
 
   if (!showCurrency) {
-    return `${sign}${formattedAmount}`;
+    return `${sign}${formatted}`;
   }
 
   const { currencySymbol, currencyPosition } = siteConfig.localization;
 
   if (currencyPosition === 'prefix') {
-    return `${sign}${currencySymbol}${formattedAmount}`;
+    return `${sign}${currencySymbol}${formatted}`;
   }
 
-  return `${sign}${formattedAmount} ${currencySymbol}`;
+  return `${sign}${formatted} ${currencySymbol}`;
 }
 
 /**

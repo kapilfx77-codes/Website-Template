@@ -11,7 +11,6 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { cn } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 
 export interface CartItem {
@@ -56,15 +55,15 @@ export interface CartState {
  * Format number as currency using site config.
  * If currencyPosition is "prefix", returns "$100"; if "suffix", returns "100 $".
  */
-export function formatCurrency(amount: number): string {
-  const sign = amount < 0 ? '-' : '';
-  const abs = Math.abs(amount);
-  const formatted = abs.toFixed(2);
+export function formatCurrency(amountInCents: number): string {
+  const dollars = Math.abs(amountInCents) / 100;
+  const { currencyPosition, currencySymbol } = siteConfig.localization;
+  const formatted = dollars.toFixed(2);
 
-  if (siteConfig.localization.currencyPosition === 'prefix') {
-    return `${siteConfig.localization.currencySymbol}${formatted}`;
+  if (currencyPosition === 'prefix') {
+    return `${currencySymbol}${formatted}`;
   }
-  return `${formatted} ${siteConfig.localization.currencySymbol}`;
+  return `${formatted} ${currencySymbol}`;
 }
 
 /**
@@ -136,11 +135,6 @@ export const useCart = create<CartState>()(
         // Lookup voucher from DB via Supabase (stub: assumes code matches format)
         // In production, this would fetch from /api/vouchers/validate
         // For now, we apply a simple fixed/percent discount based on code heuristics
-        const voucherMap: Record<string, { type: string; value: number }> = {};
-
-        // Read from config if predefined, otherwise default
-        const { taxRatePercentage } = siteConfig.localization;
-
         // Heuristic: if code starts with 'SAVE', apply 10% discount
         if (code.toUpperCase().startsWith('SAVE')) {
           set({

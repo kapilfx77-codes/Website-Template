@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { createProduct, updateProduct, deleteProduct, createCategory } from '@/lib/actions/products';
 import { Products, Categories } from '@/types/supabase';
+import { formatCurrency } from '@/lib/store/useCart';
 
 interface AdminProductsClientProps {
   products: Products[];
@@ -54,7 +55,7 @@ export default function AdminProductsClient({ products, categories }: AdminProdu
                   <td className="px-4 py-3 font-medium text-slate-900">{p.name}</td>
                   <td className="px-4 py-3 font-mono text-xs text-slate-500">{p.sku || '—'}</td>
                   <td className="px-4 py-3 text-slate-600">{categories.find(c => c.id === p.category_id)?.name || '—'}</td>
-                  <td className="px-4 py-3 font-bold text-blue-700">${(Number(p.price) / 100).toFixed(2)}</td>
+                  <td className="px-4 py-3 font-bold text-blue-700">{formatCurrency(Number(p.price))}</td>
                   <td className="px-4 py-3">
                     <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-extrabold ${p.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                       {p.is_active ? 'Active' : 'Inactive'}

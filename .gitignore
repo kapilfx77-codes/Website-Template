@@ -32,3 +32,6 @@ Thumbs.db
 # Vercel & Supabase local artifacts
 .vercel
 .supabase/
+
+SESSION_HANDOFF.md
+CLAUDE.md

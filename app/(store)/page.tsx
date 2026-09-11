@@ -22,6 +22,8 @@ export default async function StorePage({ searchParams }: PageProps) {
     supabase.from('products').select('id, name, slug, price, image_urls, category_id, sku, is_active').eq('is_active', true),
   ]);
 
+  const categoryMap = new Map((categoriesData || []).map((c: any) => [c.id, c]));
+
   let products = (productsData || []).map((product: any) => ({
     id: product.id,
     title: product.name,
@@ -29,7 +31,8 @@ export default async function StorePage({ searchParams }: PageProps) {
     image: product.image_urls?.[0] || '',
     stock: product.stock ?? 10,
     slug: product.slug,
-    category: undefined,
+    category_id: product.category_id,
+    category: categoryMap.get(product.category_id)?.name || 'Uncategorized',
   }));
   if (selectedCategory) {
     products = products.filter((p: any) => p.category_id === selectedCategory);
