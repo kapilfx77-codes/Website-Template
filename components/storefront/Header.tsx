@@ -39,9 +39,9 @@ export default function Header() {
           {/* Center: Nav + Search */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-black">
             <Link href="/store" className="hover:text-neutral-600 transition">Shop</Link>
-            <Link href="/?category=on-sale" className="hover:text-neutral-600 transition">On Sale</Link>
-            <Link href="/store" className="hover:text-neutral-600 transition">New Arrivals</Link>
-            <Link href="/store" className="hover:text-neutral-600 transition">Brands</Link>
+            <Link href="/#on-sale" className="hover:text-neutral-600 transition">On Sale</Link>
+            <Link href="/#new-arrivals" className="hover:text-neutral-600 transition">New Arrivals</Link>
+            <Link href="/#brands" className="hover:text-neutral-600 transition">Brands</Link>
           </nav>
 
           <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
@@ -80,9 +80,9 @@ export default function Header() {
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? 'max-h-96 border-t border-[#F0EEED]' : 'max-h-0'}`}>
           <nav className="flex flex-col gap-1 px-4 py-3 text-sm font-medium text-black">
             <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Shop</Link>
-            <Link href="/" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">On Sale</Link>
-            <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">New Arrivals</Link>
-            <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Brands</Link>
+            <Link href="/#on-sale" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">On Sale</Link>
+            <Link href="/#new-arrivals" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">New Arrivals</Link>
+            <Link href="/#brands" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Brands</Link>
           </nav>
         </div>
       </header>

@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, Minus, Plus, Trash2, ShoppingBag, Tag, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -29,6 +29,9 @@ export function CartDrawer() {
     removeVoucher,
     selectedVoucherCode,
   } = useCart();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const [codeInput, setCodeInput] = useState('');
   const [applyFeedback, setApplyFeedback] = useState<string | null>(null);
@@ -82,7 +85,7 @@ export function CartDrawer() {
 
         {/* Scrollable body */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
-          {items.length === 0 ? (
+          {mounted && items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-slate-500">
               <ShoppingBag className="mb-4 h-16 w-16 text-slate-300" />
               <p className="text-lg font-medium text-slate-700">Your cart is empty</p>

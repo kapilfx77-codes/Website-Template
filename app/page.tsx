@@ -59,7 +59,7 @@ export default async function HomePage() {
         </section>
 
         {/* Brand Marquee */}
-        <section className="bg-black py-10 overflow-hidden">
+        <section id="brands" className="bg-black py-10 overflow-hidden">
           <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-90">
             {['VERSACE', 'ZARA', 'GUCCI', 'PRADA', 'CALVIN KLEIN'].map((brand) => (
               <span key={brand} className="text-white text-xl md:text-3xl font-black tracking-tighter uppercase whitespace-nowrap">{brand}</span>
@@ -68,12 +68,18 @@ export default async function HomePage() {
         </section>
 
         {/* NEW ARRIVALS */}
-        <section className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
+        <section id="new-arrivals" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
           <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">NEW ARRIVALS</h2>
           <ProductGrid products={products.map((p: any) => ({ ...p, rating: 4.5, discount: 20 }))} />
           <div className="flex justify-center mt-12">
             <Link href="/store" className="rounded-full border-2 border-black text-black font-bold px-10 py-3 hover:bg-black hover:text-white transition">View All</Link>
           </div>
+        </section>
+
+        {/* On Sale */}
+        <section id="on-sale" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
+          <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">ON SALE</h2>
+          <ProductGrid products={products.map((p: any) => ({ ...p, rating: 4.5, discount: 30 }))} />
         </section>
 
         {/* Browse by Dress Style */}
