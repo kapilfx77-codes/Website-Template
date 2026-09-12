@@ -38,7 +38,7 @@ export default function ProductCard({
         {discount > 0 && (
           <span className="absolute top-3 left-3 z-10 bg-red-50 text-red-500 text-xs font-extrabold px-3 py-1 rounded-full">-{discount}%</span>
         )}
-        <a href={slug ? `/store/${slug}` : '#'} className="block h-full w-full">
+        <a href={slug ? `/store/${slug}` : '#'} className="block h-full w-full group-hover:scale-[1.03] transition-transform duration-500">
           <img
             src={image || '/placeholder.svg'}
             alt={title}

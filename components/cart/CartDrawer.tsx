@@ -220,13 +220,22 @@ export function CartDrawer() {
               </div>
             </div>
 
-            <Link
-              href="/checkout"
+            <button
+              onClick={async () => {
+                const { items } = useCart.getState();
+                const res = await fetch('/api/checkout', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ items }),
+                });
+                const data = await res.json();
+                if (data?.url) window.location.href = data.url;
+                else window.location.href = '/cart';
+              }}
               className="mt-4 block w-full rounded-md bg-blue-600 px-6 py-3 text-center font-bold text-white shadow hover:bg-blue-700"
-              onClick={closeCart}
             >
               Proceed to Checkout
-            </Link>
+            </button>
           </div>
         )}
       </aside>

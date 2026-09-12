@@ -46,11 +46,16 @@ export default async function AdminDashboardPage() {
 
         <section aria-label="Metrics" className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl bg-white p-6 shadow-xl border border-slate-200">
+            <Link key={s.label} href={
+              s.label === 'Total Products' ? '/admin/products' :
+              s.label === 'Active Categories' ? '/admin/categories' :
+              s.label === 'Orders' ? '/admin/orders' :
+              s.label === 'Low Stock Alerts' ? '/admin/products?filter=low-stock' : '#'
+            } className="rounded-2xl bg-white p-6 shadow-xl border border-slate-200 hover:border-blue-500 hover:shadow-2xl transition block">
               <div className={`mb-4 inline-flex rounded-xl ${s.color} p-3`}><s.icon className="h-6 w-6 text-white" /></div>
               <div className="text-3xl font-extrabold text-slate-900">{s.value}</div>
               <div className="text-sm font-medium text-slate-500">{s.label}</div>
-            </div>
+            </Link>
           ))}
         </section>
 

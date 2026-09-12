@@ -2,18 +2,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { Globe, MessageCircle, Image, Code2 } from 'lucide-react';
-import NewsletterBanner from './NewsletterBanner';
 
 export default function Footer() {
   return (
-    <>
-      {/* Overlapping Newsletter Banner — positioned relative to footer, overlaps only footer top */}
-      <div className="relative -mb-20 z-10 max-w-7xl mx-auto px-4 md:px-6 lg:px-10">
-        <NewsletterBanner />
-      </div>
-
-      {/* Main Footer */}
-      <footer className="bg-[#F0EEED] pt-28 pb-12">
+    <footer className="bg-[#F0EEED] pt-12 pb-12">
         <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10">
           {/* 5-column layout */}
           <div className="grid gap-10 md:grid-cols-5">
@@ -78,6 +70,5 @@ export default function Footer() {
           </div>
         </div>
       </footer>
-    </>
   );
 }

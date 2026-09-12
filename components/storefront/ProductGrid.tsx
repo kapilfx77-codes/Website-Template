@@ -55,4 +55,4 @@ export function ProductGrid({ products, loading = false }: ProductGridProps) {
   );
 }
 
-export default ProductGrid;
+export default ProductGrid;/* Skeleton fallback already present */
