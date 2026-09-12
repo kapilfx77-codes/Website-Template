@@ -65,9 +65,8 @@ export default function Header() {
               <ShoppingCart className="h-5 w-5 text-black" />
               <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-black text-white text-[10px] font-bold flex items-center justify-center">{totalCount || 0}</span>
             </Link>
-            <Link href="#" className="p-2 hover:bg-[#F0EEED] rounded-full transition" aria-label="Account">
-              <User className="h-5 w-5 text-black" />
-            </Link>
+            <Link href="/login" className="p-2 hover:bg-[#F0EEED] rounded-full transition text-xs font-bold text-black">Sign In</Link>
+            <Link href="/signup" className="rounded-full bg-black text-white px-4 py-2 text-xs font-bold hover:bg-neutral-800 transition">Sign Up</Link>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 hover:bg-[#F0EEED] rounded-full transition"
