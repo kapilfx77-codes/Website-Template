@@ -40,4 +40,4 @@ CLAUDE.md
 playwright-report/
 test-results/
 .blob-report/
-.playwright/
+.playwright/.claude/skills/skill-pack/

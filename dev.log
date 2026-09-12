@@ -1,0 +1,14 @@
+
+> website-template@0.1.0 dev
+> next dev
+
+⚠ You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env
+▲ Next.js 16.3.4 (Turbopack)
+- Local:         http://localhost:20128
+- Network:       http://192.168.18.13:20128
+- Environments: .env.local
+✓ Ready in 610ms
+✓ Running next.config.mjs took 25ms
+
+✓ Generated CLAUDE.md for AI agents. Set `agentRules: false` in next.config to disable.
+[?25h
