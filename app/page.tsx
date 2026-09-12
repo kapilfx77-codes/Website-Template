@@ -67,26 +67,26 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* NEW ARRIVALS */}
-        <section id="new-arrivals" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
-          <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">NEW ARRIVALS</h2>
+        {/* ALL PRODUCTS */}
+        <section id="all-products" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-12 md:py-16">
+          <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">ALL PRODUCTS</h2>
           <ProductGrid products={products.map((p: any) => ({ ...p, rating: 4.5, discount: 20 }))} />
           <div className="flex justify-center mt-12">
             <Link href="/store" className="rounded-full border-2 border-black text-black font-bold px-10 py-3 hover:bg-black hover:text-white transition">View All</Link>
           </div>
         </section>
 
-        {/* On Sale */}
-        <section id="on-sale" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
-          <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">ON SALE</h2>
+        {/* BEST SELLERS */}
+        <section id="best-sellers" className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-12 md:py-16">
+          <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">BEST SELLERS</h2>
           <ProductGrid products={products.map((p: any) => ({ ...p, rating: 4.5, discount: 30 }))} />
         </section>
 
-        {/* Browse by Dress Style */}
+        {/* BROWSE BY DRESS STYLE */}
         <BentoCategories />
 
         {/* TOP SELLING */}
-        <section className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-16 md:py-24">
+        <section className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10 py-12 md:py-16">
           <h2 className="text-center text-4xl md:text-6xl font-extrabold tracking-tight mb-12">TOP SELLING</h2>
           <ProductGrid products={products.map((p: any) => ({ ...p, rating: 4.8, discount: 15 }))} />
           <div className="flex justify-center mt-12">

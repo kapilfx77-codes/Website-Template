@@ -4,7 +4,7 @@ import { siteConfig } from '@/config/site';
 
 export default function NewsletterBanner() {
   return (
-    <section className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-10 translate-y-[-50%]">
+    <section className="mx-auto w-full">
       <div className="bg-black text-white rounded-[20px] p-8 md:p-12 shadow-2xl">
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">STAY UP TO DATE ABOUT OUR LATEST OFFERS</h2>
         <form className="flex flex-col sm:flex-row gap-3" onSubmit={(e: React.FormEvent) => { e.preventDefault(); }}>

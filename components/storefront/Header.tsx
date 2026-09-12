@@ -1,13 +1,15 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Search, Menu, X, User, ShoppingCart } from 'lucide-react';
-import { useState } from 'react';
+import { useCart } from '@/lib/store/useCart';
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const items = useCart((state: any) => state.items);
+  const totalCount = items.reduce((sum: number, item: any) => sum + (item.quantity ?? 1), 0);
 
   return (
     <>
@@ -38,9 +40,9 @@ export default function Header() {
 
           {/* Center: Nav + Search */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-black">
-            <Link href="/store" className="hover:text-neutral-600 transition">Shop</Link>
-            <Link href="/#on-sale" className="hover:text-neutral-600 transition">On Sale</Link>
-            <Link href="/#new-arrivals" className="hover:text-neutral-600 transition">New Arrivals</Link>
+            <Link href="/store" className="hover:text-neutral-600 transition">Shop / All Products</Link>
+            <Link href="/#best-sellers" className="hover:text-neutral-600 transition">Best Sellers</Link>
+            <Link href="/#dress-styles" className="hover:text-neutral-600 transition">Browse Styles</Link>
             <Link href="/#brands" className="hover:text-neutral-600 transition">Brands</Link>
           </nav>
 
@@ -61,7 +63,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <Link href="/cart" className="relative p-2 hover:bg-[#F0EEED] rounded-full transition" aria-label="Cart">
               <ShoppingCart className="h-5 w-5 text-black" />
-              <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-black text-white text-[10px] font-bold flex items-center justify-center">2</span>
+              <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-black text-white text-[10px] font-bold flex items-center justify-center">{totalCount || 0}</span>
             </Link>
             <Link href="#" className="p-2 hover:bg-[#F0EEED] rounded-full transition" aria-label="Account">
               <User className="h-5 w-5 text-black" />
@@ -80,8 +82,8 @@ export default function Header() {
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? 'max-h-96 border-t border-[#F0EEED]' : 'max-h-0'}`}>
           <nav className="flex flex-col gap-1 px-4 py-3 text-sm font-medium text-black">
             <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Shop</Link>
-            <Link href="/#on-sale" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">On Sale</Link>
-            <Link href="/#new-arrivals" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">New Arrivals</Link>
+            <Link href="/#best-sellers" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Best Sellers</Link>
+            <Link href="/#dress-styles" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Browse Styles</Link>
             <Link href="/#brands" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Brands</Link>
           </nav>
         </div>
