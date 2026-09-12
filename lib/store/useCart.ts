@@ -16,6 +16,7 @@ import { siteConfig } from '@/config/site';
 export interface CartItem {
   /** FK to product_variants.id or products.id */
   id: string;
+  slug?: string;
   title: string;
   price: number; // unit price in cents
   image: string; // thumbnail URL

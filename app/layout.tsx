@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang={siteConfig.localization.defaultLocale.replace('-', '_')} className={`${inter.variable} scroll-smooth`}>
-      <body className="bg-slate-50 text-slate-900 antialiased font-sans">
+      <body className="bg-slate-50 text-slate-900 antialiased font-sans" suppressHydrationWarning>
         {children}
       </body>
     </html>
