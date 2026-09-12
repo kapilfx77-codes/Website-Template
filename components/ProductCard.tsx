@@ -8,7 +8,7 @@ export default function ProductCard({ product }: { product: any }) {
   const discount = compare && compare > price ? Math.round(((compare - price) / compare) * 100) : 0;
 
   return (
-    <div className="group relative bg-paper rounded-[20px] p-3 overflow-hidden">
+    <div className="group relative bg-paper rounded-[20px] p-3 overflow-hidden glow-border">
       <Link href={`/store/${product.slug}`} className="block relative aspect-square rounded-[20px] overflow-hidden bg-neutral-100">
         <img src={product.image || '/placeholder-product.png'} alt={product.title || product.name} className="w-full h-full object-cover scale-100 group-hover:scale-105 transition duration-500" />
       </Link>

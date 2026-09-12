@@ -9,5 +9,44 @@
   --radius-card-lg: 40px;
 }
 
+@property --a {
+  syntax: "";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-gradient {
+  to {
+    --a: 360deg;
+  }
+}
+
+@layer utilities {
+  .glow-border {
+    position: relative;
+    z-index: 1;
+  }
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--a),
+      #3b82f6,
+      #8b5cf6,
+      #ec4899,
+      #3b82f6
+    );
+    animation: spin-gradient 5s linear infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+}
+
 html { scroll-behavior: smooth; }
 body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; background: #FFFFFF; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }

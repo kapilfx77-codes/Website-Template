@@ -17,7 +17,7 @@ export default function ProductRecommendations({
     async function load() {
       let list: any[] = [];
       try {
-        const res = await fetch(`/api/products?category=${encodeURIComponent(categorySlug || '')}`);
+        const res = await fetch(`/api/products?category_id=${encodeURIComponent(currentId || '')}&exclude=${encodeURIComponent(currentId || '')}`);
         if (res.ok) { const d = await res.json(); list = (d.products || []).filter((p: any) => p.id !== currentId && p.slug !== currentSlug); }
       } catch {}
       if (list.length === 0) {
