@@ -24,7 +24,7 @@ export default async function StorePage() {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-extrabold tracking-tight mb-8">Full Catalog</h1>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-8 pt-6">All Products</h1>
         <ProductGrid products={products} />
       </main>
       <Footer />

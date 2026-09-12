@@ -9,7 +9,7 @@ export default async function AdminDashboardPage() {
     supabase.from('categories').select('id, is_active'),
     supabase.from('orders').select('id'),
   ]);
-  const lowStock = (products || []).filter((p: any) => (p.stock ?? 0) <= 3).length;
+  const lowStock = (products || []).filter((p: any) => (p.stock_type === 'static' && (p.stock_quantity ?? 0) <= 5)).length;
 
   const stats = [
     { label: 'Total Products', value: String(products?.length ?? 0), icon: Package, color: 'bg-blue-600' },
@@ -23,7 +23,7 @@ export default async function AdminDashboardPage() {
     { href: '/admin/categories', label: 'Categories', desc: 'Organize shelves', icon: Tag },
     { href: '/admin/inventory', label: 'Inventory', desc: 'Stock levels & variants', icon: BarChart3 },
     { href: '/admin/orders', label: 'Orders', desc: 'View customer orders', icon: ShoppingCart },
-    { href: '/pos', label: 'POS Counter', desc: 'In-store checkout', icon: LayoutDashboard },
+    { href: '/admin/pos', label: 'POS Counter', desc: 'In-store checkout', icon: LayoutDashboard },
     { href: '/admin/settings', label: 'Settings', desc: 'Site config & taxes', icon: Settings },
   ];
 

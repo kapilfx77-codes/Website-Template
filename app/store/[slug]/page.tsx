@@ -7,6 +7,8 @@ import Footer from '@/components/storefront/Footer';
 
 interface PageProps { params: Promise<{ slug: string }>; }
 
+import ProductRecommendations from '@/components/product/ProductRecommendations';
+
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createClient();
@@ -19,6 +21,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <div className="mx-auto max-w-6xl">
           <nav className="mb-8 text-sm text-muted-foreground">Home {'>'} Store {'>'} <span className="text-foreground">{product.name}</span></nav>
           <ProductDetailView product={product} />
+          <ProductRecommendations currentId={product.id} categorySlug={product.categories?.slug} currentSlug={product.slug} />
         </div>
       </main>
       <Footer />
