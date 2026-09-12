@@ -123,7 +123,7 @@ export function CartDrawer() {
                       <div className="flex items-end justify-between gap-4">
                         <div className="flex items-center gap-2 rounded-full bg-slate-100">
                           <button
-                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="rounded-full p-1.5 text-slate-600 hover:bg-slate-200"
                             aria-label="Decrease quantity"
                           >

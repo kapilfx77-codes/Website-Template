@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency } from '@/lib/store/useCart';
+import ToggleActiveButton from '@/components/admin/ToggleActiveButton';
 import Link from 'next/link';
 
 export default async function AdminCategoriesPage() {
@@ -17,7 +18,7 @@ export default async function AdminCategoriesPage() {
             <thead className="bg-slate-900 text-white"><tr><th className="px-4 py-3 text-left font-bold">Name</th><th className="px-4 py-3 text-left font-bold">Slug</th><th className="px-4 py-3 text-left font-bold">Active</th></tr></thead>
             <tbody className="divide-y divide-slate-100">
               {(categories || []).map((c: any) => (
-                <tr key={c.id} className="hover:bg-blue-50"><td className="px-4 py-3 font-medium text-slate-900">{c.name}</td><td className="px-4 py-3 font-mono text-xs text-slate-500">{c.slug}</td><td className="px-4 py-3">{c.is_active ? 'Yes' : 'No'}</td></tr>
+                <tr key={c.id} className="hover:bg-blue-50"><td className="px-4 py-3 font-medium text-slate-900">{c.name}</td><td className="px-4 py-3 font-mono text-xs text-slate-500">{c.slug}</td><td className="px-4 py-3"><ToggleActiveButton id={c.id} isActive={c.is_active} /></td></tr>
               ))}
             </tbody>
           </table>

@@ -31,9 +31,9 @@ export default function CartPage() {
                     <h3 className="font-bold text-slate-900 truncate">{item.title}</h3>
                     <p className="text-sm font-medium text-blue-700">{formatCurrency(item.price)}</p>
                     <div className="mt-3 flex items-center gap-2">
-                      <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))} aria-label="Decrease" className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold hover:bg-slate-200"><Minus className="h-3 w-3" /></button>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Increase" className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold hover:bg-slate-200"><Plus className="h-3 w-3" /></button>
                       <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)} aria-label="Increase" className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold hover:bg-slate-200"><Plus className="h-3 w-3" /></button>
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Decrease" className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold hover:bg-slate-200"><Minus className="h-3 w-3" /></button>
                       <button onClick={() => removeItem(item.id)} aria-label="Remove" className="ml-2 rounded-md bg-red-50 px-2 py-1 text-xs font-bold text-red-600 hover:bg-red-100"><Trash2 className="h-3 w-3" /></button>
                     </div>
                   </div>
@@ -44,8 +44,12 @@ export default function CartPage() {
               ))}
             </ul>
             <div className="rounded-2xl bg-white border shadow-xl p-6">
-              <div className="flex justify-between text-sm"><span className="text-slate-500">Subtotal</span><span className="font-medium">{formatCurrency(getSubtotal())}</span></div>
-              <div className="flex justify-between text-2xl font-extrabold text-slate-900 mt-4 pt-4 border-t"><span>Total</span><span>{formatCurrency(getTotal())}</span></div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between"><span className="text-slate-500">Subtotal</span><span className="font-medium">{formatCurrency(getSubtotal())}</span></div>
+                <div className="flex justify-between text-slate-600"><span>Estimated Tax (8%)</span><span className="font-medium">{formatCurrency(Math.round(getSubtotal() * 0.08))}</span></div>
+                <div className="flex justify-between text-slate-600"><span>Shipping</span><span className="font-medium">Free</span></div>
+                <div className="flex justify-between text-2xl font-extrabold text-slate-900 mt-3 pt-3 border-t"><span>Total</span><span>{formatCurrency(getTotal())}</span></div>
+              </div>
               <button onClick={async () => {
                 const res = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items }) });
                 const data = await res.json();
