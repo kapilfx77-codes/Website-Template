@@ -2,7 +2,7 @@
  * ProductGrid — Responsive grid for ProductCard components with skeleton states
  */
 
-import { ProductCard, ProductCardProps } from './ProductCard';
+import ProductCard, { ProductCardProps } from './ProductCard';
 
 export interface ProductGridProps {
   products: ProductCardProps[];

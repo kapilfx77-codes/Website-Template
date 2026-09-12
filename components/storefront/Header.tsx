@@ -1,83 +1,91 @@
-/**
- * Storefront Header — Sticky responsive navbar
- *
- * Reads store identity, features, and POS toggle directly from siteConfig.
- * Includes search bar, navigation links, CartButton, and mobile drawer.
- */
-
 'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { Menu, Search, Store } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { siteConfig } from '@/config/site';
-import { CartButton } from '@/components/cart/CartButton';
-import AnnouncementBar from '@/components/AnnouncementBar';
+import { Search, Menu, X, User, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
 
-export function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
-  const { features, name, shortName } = siteConfig;
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   return (
     <>
-      <AnnouncementBar />
-      <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
-        {/* Mobile toggle */}
-        <button
-          className="rounded-md p-2 text-slate-700 hover:bg-slate-100 md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle mobile menu"
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+      {/* Top Announcement Bar */}
+      {!dismissed && (
+        <div className="relative bg-black text-white text-sm font-medium tracking-wide">
+          <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-4 py-3 md:px-6">
+            <span>Sign up and get 20% off your first order.</span>
+            <Link href="/store" className="font-bold underline underline-offset-2 hover:text-gray-300">Shop Now</Link>
+          </div>
+          <button
+            onClick={() => setDismissed(true)}
+            aria-label="Dismiss"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 text-xl font-extrabold tracking-tight text-slate-900">
-          <span className="rounded-lg bg-slate-900 px-2 py-1 text-sm text-white">Apex</span>
-          <span className="hidden sm:inline">{name}</span>
-        </Link>
+      {/* Main Navigation Header */}
+      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-[#F0EEED]">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6 lg:px-10">
+          {/* Left: Brand */}
+          <Link href="/" className="text-2xl font-black uppercase tracking-tighter text-black leading-none">
+            APEX
+          </Link>
 
-        {/* Search */}
-        <div className="mx-6 hidden max-w-md flex-1 md:block">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search products..."
-              className="w-full rounded-full border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 text-sm text-slate-900 shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
-            />
+          {/* Center: Nav + Search */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-black">
+            <Link href="/store" className="hover:text-neutral-600 transition">Shop</Link>
+            <Link href="/?category=on-sale" className="hover:text-neutral-600 transition">On Sale</Link>
+            <Link href="/store" className="hover:text-neutral-600 transition">New Arrivals</Link>
+            <Link href="/store" className="hover:text-neutral-600 transition">Brands</Link>
+          </nav>
+
+          <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+            <div className="relative w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..."
+                className="w-full rounded-full bg-[#F0EEED] px-4 py-2.5 pl-10 text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-black/10 transition"
+              />
+            </div>
+          </div>
+
+          {/* Right: Cart + Account */}
+          <div className="flex items-center gap-4">
+            <Link href="/cart" className="relative p-2 hover:bg-[#F0EEED] rounded-full transition" aria-label="Cart">
+              <ShoppingCart className="h-5 w-5 text-black" />
+              <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-black text-white text-[10px] font-bold flex items-center justify-center">2</span>
+            </Link>
+            <Link href="#" className="p-2 hover:bg-[#F0EEED] rounded-full transition" aria-label="Account">
+              <User className="h-5 w-5 text-black" />
+            </Link>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden p-2 hover:bg-[#F0EEED] rounded-full transition"
+              aria-label="Menu"
+            >
+              <Menu className="h-5 w-5 text-black" />
+            </button>
           </div>
         </div>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-3">
-          {features.enablePOS && (
-            <Link href="/admin" className="hidden items-center gap-1.5 rounded-full bg-amber-100 px-3 py-2 text-xs font-bold text-amber-800 hover:bg-amber-200 sm:inline-flex">
-              <Store className="h-3.5 w-3.5" /> POS
-            </Link>
-          )}
-          <span className="hidden text-xs font-medium text-slate-400 sm:inline">{siteConfig.localization.currencySymbol}</span>
-          <CartButton />
+        {/* Mobile drawer */}
+        <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileOpen ? 'max-h-96 border-t border-[#F0EEED]' : 'max-h-0'}`}>
+          <nav className="flex flex-col gap-1 px-4 py-3 text-sm font-medium text-black">
+            <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Shop</Link>
+            <Link href="/" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">On Sale</Link>
+            <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">New Arrivals</Link>
+            <Link href="/store" onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 hover:bg-[#F0EEED]">Brands</Link>
+          </nav>
         </div>
-      </div>
-
-      {/* Mobile drawer */}
-      <div className={cn('md:hidden overflow-hidden transition-all duration-300', mobileOpen ? 'max-h-80 border-t border-slate-100' : 'max-h-0')}>
-        <nav className="flex flex-col gap-1 px-4 py-3 text-sm font-medium text-slate-700">
-          <Link href="/" className="rounded-md px-3 py-2 hover:bg-slate-50" onClick={() => setMobileOpen(false)}>Catalog</Link>
-          <Link href="/store" className="rounded-md px-3 py-2 hover:bg-slate-50" onClick={() => setMobileOpen(false)}>Categories</Link>
-          {features.enablePOS && (
-            <Link href="/admin" className="rounded-md px-3 py-2 hover:bg-slate-50" onClick={() => setMobileOpen(false)}>In-Store POS</Link>
-          )}
-        </nav>
-      </div>
       </header>
     </>
   );
 }
-export default Header;

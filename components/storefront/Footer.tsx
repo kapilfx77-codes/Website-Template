@@ -1,66 +1,81 @@
-/**
- * Storefront Footer — Read all store info from siteConfig
- */
+/** Storefront Footer */
+import React from 'react';
+import Link from 'next/link';
+import { Globe, MessageCircle, Image, Code2 } from 'lucide-react';
+import NewsletterBanner from './NewsletterBanner';
 
-import { siteConfig } from '@/config/site';
-
-export function Footer() {
-  const year = new Date().getFullYear();
-  const c = siteConfig.contact;
-  const payments = siteConfig.payments;
-
-  const enabledPayments = [
-    { key: 'stripe', label: 'Stripe', enabled: payments.stripe.enabled },
-    { key: 'paypal', label: 'PayPal', enabled: payments.paypal.enabled },
-    { key: 'esewa', label: 'eSewa', enabled: payments.esewa.enabled },
-    { key: 'khalti', label: 'Khalti', enabled: payments.khalti.enabled },
-    { key: 'cashOnDelivery', label: 'COD', enabled: payments.cashOnDelivery.enabled },
-    { key: 'bankTransfer', label: 'Bank Transfer', enabled: payments.bankTransfer.enabled },
-  ].filter((p) => p.enabled);
-
+export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-200">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:px-8">
-        <div className="grid gap-10 md:grid-cols-3">
-          {/* Brand & description */}
-          <div>
-            <h3 className="mb-2 text-xl font-extrabold text-white">{siteConfig.shortName}</h3>
-            <p className="text-sm leading-relaxed text-slate-400">{siteConfig.description}</p>
-            <div className="mt-4 flex gap-3 text-sm">
-              {Object.entries(c.socials).filter(([, url]) => url).map(([key, url]) => (
-                <a key={key} href={url} className="underline hover:text-white" aria-label={key}>{key}</a>
-              ))}
+    <>
+      {/* Overlapping Newsletter Banner */}
+      <NewsletterBanner />
+
+      {/* Main Footer */}
+      <footer className="bg-[#F0EEED] pt-28 pb-12">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-10">
+          {/* 5-column layout */}
+          <div className="grid gap-10 md:grid-cols-5">
+            {/* Brand Summary */}
+            <div className="md:col-span-2">
+              <Link href="/" className="text-2xl font-black uppercase tracking-tighter text-black leading-none">APEX</Link>
+              <p className="mt-4 text-sm text-neutral-600 leading-relaxed max-w-sm">
+                A modern e-commerce experience delivering premium fashion with style, quality, and value.
+              </p>
+              <div className="mt-5 flex gap-3">
+                <a href="#" aria-label="Twitter" className="h-9 w-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-neutral-800 transition"><Globe className="h-4 w-4" /></a>
+                <a href="#" aria-label="Facebook" className="h-9 w-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-neutral-800 transition"><MessageCircle className="h-4 w-4" /></a>
+                <a href="#" aria-label="Instagram" className="h-9 w-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-neutral-800 transition"><Image className="h-4 w-4" /></a>
+                <a href="#" aria-label="GitHub" className="h-9 w-9 rounded-full bg-black text-white flex items-center justify-center hover:bg-neutral-800 transition"><Code2 className="h-4 w-4" /></a>
+              </div>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-sm font-extrabold uppercase tracking-wide text-black mb-4">Company</h4>
+              <ul className="space-y-2.5 text-sm text-neutral-600">
+                <li><Link href="/" className="hover:text-black transition">About</Link></li>
+                <li><Link href="/store" className="hover:text-black transition">Features</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Works</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Career</Link></li>
+              </ul>
+            </div>
+
+            {/* Help */}
+            <div>
+              <h4 className="text-sm font-extrabold uppercase tracking-wide text-black mb-4">Help</h4>
+              <ul className="space-y-2.5 text-sm text-neutral-600">
+                <li><Link href="#" className="hover:text-black transition">Customer Support</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Delivery Details</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Terms & Conditions</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Privacy Policy</Link></li>
+              </ul>
+            </div>
+
+            {/* FAQ / Resources */}
+            <div>
+              <h4 className="text-sm font-extrabold uppercase tracking-wide text-black mb-4">FAQ</h4>
+              <ul className="space-y-2.5 text-sm text-neutral-600">
+                <li><Link href="#" className="hover:text-black transition">Account</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Manage Deliveries</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Orders</Link></li>
+                <li><Link href="#" className="hover:text-black transition">Payments</Link></li>
+              </ul>
             </div>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="mb-3 font-bold text-white">Contact</h4>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li><span className="text-slate-500">Email:</span> {c.email}</li>
-              <li><span className="text-slate-500">Phone:</span> {c.phone}</li>
-              <li><span className="text-slate-500">WhatsApp:</span> {c.whatsappNumber}</li>
-              <li><span className="text-slate-500">Address:</span> {c.address.street}, {c.address.city}, {c.address.country}</li>
-            </ul>
-          </div>
-
-          {/* Payments */}
-          <div>
-            <h4 className="mb-3 font-bold text-white">Payment Methods</h4>
-            <div className="flex flex-wrap gap-2">
-              {enabledPayments.map((p) => (
-                <span key={p.key} className="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-blue-300 ring-1 ring-slate-700">{p.label}</span>
-              ))}
+          {/* Bottom bar */}
+          <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-neutral-200 pt-8">
+            <p className="text-xs text-neutral-400">© 2026 Apex Store. All rights reserved.</p>
+            <div className="flex gap-3 text-neutral-500">
+              <span className="text-[10px] font-bold bg-white px-2.5 py-1 rounded-md">VISA</span>
+              <span className="text-[10px] font-bold bg-white px-2.5 py-1 rounded-md">MASTERCARD</span>
+              <span className="text-[10px] font-bold bg-white px-2.5 py-1 rounded-md">PAYPAL</span>
+              <span className="text-[10px] font-bold bg-white px-2.5 py-1 rounded-md">APPLE PAY</span>
+              <span className="text-[10px] font-bold bg-white px-2.5 py-1 rounded-md">GOOGLE PAY</span>
             </div>
           </div>
         </div>
-
-        <div className="mt-10 border-t border-slate-800 pt-6 text-xs text-slate-500">
-          © {year} {siteConfig.name}. All rights reserved.
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
-
-export default Footer;
